@@ -24,6 +24,7 @@ namespace TcpIpClient
         {
             InitializeComponent();
             _receivedMsg = new byte[2048];
+            button1.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -52,7 +53,7 @@ namespace TcpIpClient
         private void button1_Click(object sender, EventArgs e)
         {
             string message = clientName + '%' + inputMsg.Text;
-            if(_tcpClient != null)
+            if (_tcpClient != null)
             {
                 _stream = _tcpClient.GetStream();
                 ASCIIEncoding encoding = new ASCIIEncoding();
@@ -100,6 +101,14 @@ namespace TcpIpClient
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void inputMsg_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(inputMsg.Text) || string.IsNullOrWhiteSpace(inputMsg.Text))
+                button1.Enabled = false;
+            else
+                button1.Enabled = true;
         }
     }
 }

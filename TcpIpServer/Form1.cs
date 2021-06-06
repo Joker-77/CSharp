@@ -24,6 +24,7 @@ namespace TcpIpServer
         public Form1()
         {
             InitializeComponent();
+            button1.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace TcpIpServer
                 _iPAddress = IPAddress.Parse("127.0.0.1");
                 tcpListener = new TcpListener(_iPAddress, 8888);
                 tcpListener.Start();
-                statusLbl.Text = "The server is running at port 8888...";
+                statusLbl.Text = "The server is running on port 8888...";
                 button2.Enabled = false;
                 _socket = new List<Socket>();
                 new Thread(() =>
@@ -109,6 +110,14 @@ namespace TcpIpServer
             }
             messageReadtxt.Text += $"{serverName}-{DateTime.Now.ToShortTimeString()}: {msgTxt.Text} {Environment.NewLine}";
             msgTxt.Text = "";
+        }
+
+        private void msgTxt_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(msgTxt.Text) || string.IsNullOrWhiteSpace(msgTxt.Text))
+                button1.Enabled = false;
+            else
+                button1.Enabled = true;
         }
     }
 }

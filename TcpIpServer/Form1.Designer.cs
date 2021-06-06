@@ -68,6 +68,7 @@ namespace TcpIpServer
             this.msgTxt.Size = new System.Drawing.Size(350, 41);
             this.msgTxt.TabIndex = 2;
             this.msgTxt.Text = " ";
+            this.msgTxt.TextChanged += new System.EventHandler(this.msgTxt_TextChanged);
             // 
             // label2
             // 

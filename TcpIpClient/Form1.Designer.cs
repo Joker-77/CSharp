@@ -87,6 +87,7 @@ namespace TcpIpClient
             this.inputMsg.Size = new System.Drawing.Size(350, 41);
             this.inputMsg.TabIndex = 11;
             this.inputMsg.Text = " ";
+            this.inputMsg.TextChanged += new System.EventHandler(this.inputMsg_TextChanged);
             // 
             // messageReadtxt
             // 
