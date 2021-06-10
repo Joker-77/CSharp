@@ -92,21 +92,14 @@ namespace TcpIpServer
             {
                 messageReadtxt.Text += $"{encodedMessage.Split('%')[0]}-{DateTime.Now.ToShortTimeString()}: {encodedMessage.Split('%')[1].TrimStart()} {Environment.NewLine}";
             }
-            //ASCIIEncoding asen = new ASCIIEncoding();
-            //foreach (var item in _socket.Where(e => e.Connected).ToList())
-            //{
-            //    item.Send(asen.GetBytes(serverName + '%' + msgTxt.Text));
-            //    messageReadtxt.Text += $"{serverName}-{DateTime.Now.ToShortTimeString()}: {msgTxt.Text} {Environment.NewLine}";
-            //    msgTxt.Text = "";
-            //}
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ASCIIEncoding asen = new ASCIIEncoding();
+            ASCIIEncoding ascii = new ASCIIEncoding();
             foreach(var item in _socket.Where(e => e.Connected).ToList())
             {
-                item.Send(asen.GetBytes(serverName + '%' + msgTxt.Text));
+                item.Send(ascii.GetBytes(serverName + '%' + msgTxt.Text));
             }
             messageReadtxt.Text += $"{serverName}-{DateTime.Now.ToShortTimeString()}: {msgTxt.Text} {Environment.NewLine}";
             msgTxt.Text = "";
