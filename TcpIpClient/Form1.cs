@@ -20,6 +20,8 @@ namespace TcpIpClient
         private byte[] _receivedMsg;
         private string _encodedMsg;
         string clientName = "Client";
+        private bool _connected;
+        Thread getMessageThread;
         public Form1()
         {
             InitializeComponent();
@@ -38,12 +40,13 @@ namespace TcpIpClient
                 MessageBox.Show("Connected Successfuly", "Status", MessageBoxButtons.OKCancel);
                 statusLbl.Text = "Connected...";
                 button2.Enabled = false;
+                _connected = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel);
             }
-            Thread getMessageThread = new Thread(() =>
+            getMessageThread = new Thread(() =>
             {
                 this.GetMessage();
             });
@@ -52,22 +55,29 @@ namespace TcpIpClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string message = clientName + '%' + inputMsg.Text;
-            if (_tcpClient != null)
+            try
             {
-                _stream = _tcpClient.GetStream();
-                ASCIIEncoding encoding = new ASCIIEncoding();
-                byte[] encodedMsg = encoding.GetBytes(message);
-                statusLbl.Text = "Sending...";
-                _stream.Write(encodedMsg, 0, encodedMsg.Length);
-                messageReadtxt.Text += $"{DateTime.Now.ToShortTimeString()}: {inputMsg.Text} {Environment.NewLine}";
-                inputMsg.Text = "";
+                string message = clientName + '%' + inputMsg.Text;
+                if (_tcpClient != null)
+                {
+                    _stream = _tcpClient.GetStream();
+                    ASCIIEncoding encoding = new ASCIIEncoding();
+                    byte[] encodedMsg = encoding.GetBytes(message);
+                    statusLbl.Text = "Sending...";
+                    _stream.Write(encodedMsg, 0, encodedMsg.Length);
+                    messageReadtxt.Text += $"{DateTime.Now.ToShortTimeString()}: {inputMsg.Text} {Environment.NewLine}";
+                    inputMsg.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Server is offline now", "Server Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
             }
         }
 
         private void GetMessage()
         {
-            while (true)
+            while (_connected)
             {
                 if (_tcpClient != null)
                 {
@@ -109,6 +119,27 @@ namespace TcpIpClient
                 button1.Enabled = false;
             else
                 button1.Enabled = true;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            _connected = false;
+            textBox1.Text = $"";
+            button2.Text = "Connect";
+            button2.Enabled = true;
+            statusLbl.Text = "Disconnected...";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CreateGroup createGroup = new CreateGroup();
+            createGroup.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            GroupInfo info = new GroupInfo();
+            info.Show();
         }
     }
 }

@@ -110,9 +110,9 @@ namespace TcpIpClient
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(80, 40);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(152, 20);
+            this.label6.Size = new System.Drawing.Size(158, 20);
             this.label6.TabIndex = 23;
-            this.label6.Text = "Select Client In Group";
+            this.label6.Text = "Select Clients In Group";
             // 
             // textBox1
             // 
